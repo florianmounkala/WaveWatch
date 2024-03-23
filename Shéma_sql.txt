@@ -1,0 +1,23 @@
+CREATE TABLE mots (
+   mot VARCHAR(50),
+   langue VARCHAR(50),
+   PRIMARY KEY(mot, langue)
+);
+
+CREATE TABLE series (
+   nom_serie VARCHAR(50),
+   langue VARCHAR(50),
+   genres VARCHAR(255),
+   series_recomandes VARCHAR(255),
+   PRIMARY KEY(nom_serie, langue)
+);
+
+CREATE TABLE mots_series (
+   mot VARCHAR(50),
+   nom_serie VARCHAR(50),
+   langue VARCHAR(50),
+   tf_idf VARCHAR(50),
+   PRIMARY KEY(mot, nom_serie, langue),
+   FOREIGN KEY(mot) REFERENCES mots(mot),
+   FOREIGN KEY(nom_serie, langue) REFERENCES series(nom_serie, langue)
+);
