@@ -1,0 +1,1 @@
+les codes pythons doivent etre dans le meme repertoires que les listes de series de sous soustitres 
