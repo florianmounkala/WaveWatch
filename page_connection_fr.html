@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Page de Connexion</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css_saes5/page_inscription_connection.css">
+    <script>
+        window.onload = function() {
+            document.getElementById('connexion-form').addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                // Récupérez les informations du formulaire
+                var username = document.getElementById('username').value;
+                var password = document.getElementById('password').value;
+
+
+                // Créez l'objet de données à envoyer
+                var data = {
+                    'nom_user':username,
+                    'password':password
+                };
+                console.log(data);
+                // Envoyez une requête PUT à test_api3.php
+                fetch('http://localhost/saes5/test_api3.php/user/verify', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(function(response) {
+                    if (response.ok) {
+                        // Si la réponse est bonne, affichez la réponse dans la console
+                        console.log(response);
+                        // Enregistrez le pseudo et le mot de passe de l'utilisateur dans LocalStorage
+                        localStorage.setItem('userPseudo', username);
+                        localStorage.setItem('userPassword', password);
+                        window.location.href='page_acceuil_fr.html';
+                        return response.json();
+                    }
+                    throw new Error('Erreur lors de la verification : ' + response.statusText);
+                })
+                .catch(function(error) {
+                    // En cas d'erreur réseau, affichez un message d'erreur
+                    document.getElementById('error-message').style.display = 'block';
+                    console.error('Erreur lors de bdd :', error.message);
+                });
+            });
+        };
+    </script>
+</head>
+<body>
+    <div id="top-buttons">
+        <button onclick="window.location.href='page_inscription_fr.html'">Inscription</button>
+        <a href="page_connection_eng.html">
+            <img src="css_saes5/images/logo_drap_eng.jpg" alt="Langue">
+        </a>
+        </button>
+    </div>    
+    <h1>WaveWatch</h1>
+    <p>Bienvenue sur notre site de soustitre et streaming.</p>
+    <p>Merci de vous connecter pour acceder au différentes séries proposées</p>
+    
+     <!-- Ajoutez cet élément pour le message d'erreur -->
+     <p id="error-message" style="display: none; color: red;">Profil pas trouvé</p>
+   
+    <div id="form-container">
+        <form id="connexion-form">
+            <label for="username">Identifiant:</label><br>
+            <input type="text" id="username" name="username"><br>
+            <label for="password">Mot de passe:</label><br>
+            <input type="password" id="password" name="password"><br>
+            <button type="submit">Connexion</button>
+        </form>
+    </div>
+</body>
+<footer>
+    <p>Site crée par Mounkala Florian et Afrite Yanis</p>
+</footer>
+</html>

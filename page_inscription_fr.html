@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Page d'inscription</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css_saes5/page_inscription_connection.css">
+    <script>
+        window.onload = function() {
+            document.getElementById('registration-form').addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                // Récupérez les informations du formulaire
+                var numId = document.getElementById('Num_Id').value;
+                var username = document.getElementById('username').value;
+                var password = document.getElementById('password').value;
+                var mail = document.getElementById('mail').value;
+                var seriesLikes = [];
+
+                // Créez l'objet de données à envoyer
+                var data = {
+                    'user_id':numId,
+                    'user_name':username,
+                    'user_password':password,
+                    'user_email':mail
+                };
+                console.log(data);
+                // Envoyez une requête PUT à test_api3.php
+                fetch('http://localhost/saes5/test_api3.php/user/add', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(function(response) {
+                    if (response.ok) {
+                        // Si la réponse est bonne, affichez la réponse dans la console
+                        console.log(response);
+                        alert('Inscription réussie');
+                        window.location.href='page_connection_eng.html';
+                        return response.json();
+                    }
+                    throw new Error('Erreur lors de l\'inscription 1 : ' + response.statusText);
+                })
+                .catch(function(error) {
+                    // En cas d'erreur réseau, affichez un message d'erreur
+                    document.getElementById('error-message').style.display = 'block';
+                    console.error('Erreur lors de l\'inscription 2 :', error.message);
+                });
+            });
+        };
+    </script>
+</head>
+<body>
+    <div id="top-buttons">
+        <button onclick="window.location.href='page_connection_fr.html'">Connexion</button>
+        <a href="page_inscription_eng.html">
+            <img src="css_saes5/images/logo_drap_eng.jpg" alt="Langue">
+        </a>
+        </button>
+    </div>    
+    <h1>WaveWatch</h1>
+    <p>Bienvenue sur notre site de soustitre et streaming.</p>
+    <p>Merci de vous inscrire pour acceder au différentes séries proposées</p>
+     <!-- Ajoutez cet élément pour le message d'erreur -->
+    <p id="error-message" style="display: none; color: red;">Votre inscription est incorrecte.Veuillez réessayer</p>
+
+    <div id="form-container">
+        <form id="registration-form">
+            <label for="Num_Id">Num_ID:</label><br>
+            <input type="text" id="Num_Id" name="Num_Id"><br>
+            <label for="username">Pseudo:</label><br>
+            <input type="text" id="username" name="username"><br>
+            <label for="password">Mot de passe:</label><br>
+            <input type="password" id="password" name="password"><br>
+            <label for="mail">E-Mail:</label><br>
+            <input type="text" id="mail" name="mail"><br>
+            <button type="submit">Inscription</button>
+        </form>
+    </div>
+</body>
+<footer>
+    <p>Site crée par Mounkala Florian et Afrite Yanis</p>
+</footer>
+</html>
